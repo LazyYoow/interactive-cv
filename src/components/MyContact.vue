@@ -1,5 +1,5 @@
 <script setup> 
-import SectionTitle from './SectionTitle.vue'; 
+import SectionTitle from './MySectionTitle.vue'; 
 </script> 
 <template> 
  <footer id="kontak" class="py-20 bg-gray-800 text-white">  <div class="container mx-auto px-6 text-center"> 
