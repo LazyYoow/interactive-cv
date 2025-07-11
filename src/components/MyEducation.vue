@@ -2,8 +2,8 @@
 import SectionTitle from './MySectionTitle.vue'; 
 // Data ini akan kita pindah ke backend nanti 
 const educationHistory = [ 
- { id: 1, period: '2022 - Sekarang', institution: 'Universitas Gadjah  Mada', major: 'S1 - Teknik Informatika' }, 
- { id: 2, period: '2019 - 2022', institution: 'SMA Negeri 1 Teladan  Yogyakarta', major: 'MIPA' } 
+ { id: 1, period: '2023 - Sekarang', institution: 'Amikom University', major: 'S1 - Teknik Informatika' }, 
+ { id: 2, period: '2020 - 2023', institution: 'SMK Yadika Tanjungsari', major: 'TKJ' } 
 ]; 
 </script> 
 <template> 
