@@ -1,5 +1,5 @@
 const path = require('path'); 
-require('dotenv').config({ path: path.resolve(__dirname, '..',  '.env.development.local') });
+require('dotenv').config();
 const { sql } = require('@vercel/postgres'); 
 const { educationHistory, skills, projects } = require('./data.js'); 
 async function seed() { 
@@ -18,4 +18,4 @@ VARCHAR(255));`;
  process.exit(1); 
  } 
 } 
-seed(); 
+seed();
