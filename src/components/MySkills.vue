@@ -102,7 +102,8 @@
 </template>
 
 <script>
-import { ref, onMounted, } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'ModernSkillsSection',
@@ -111,19 +112,8 @@ export default {
     const titleRef = ref(null)
     const selectedSkill = ref(null)
     const particles = ref([])
-    
-    const skills = [
-      { name: 'Vue.js', level: 'Mahir' },
-      { name: 'JavaScript', level: 'Mahir' },
-      { name: 'Tailwind CSS', level: 'Mahir' },
-      { name: 'Node.js', level: 'Menengah' },
-      { name: 'Express.js', level: 'Menengah' },
-      { name: 'PostgreSQL', level: 'Menengah' },
-      { name: 'Git & GitHub', level: 'Mahir' },
-      { name: 'HTML5 & CSS3', level: 'Mahir' },
-    ]
-    
-    // Generate random particles
+    const skills = ref([]) // sekarang kosong dulu, diisi dari API
+
     const generateParticles = () => {
       for (let i = 0; i < 20; i++) {
         particles.value.push({
@@ -134,8 +124,7 @@ export default {
         })
       }
     }
-    
-    // Intersection Observer for animations
+
     const setupIntersectionObserver = () => {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -147,15 +136,24 @@ export default {
         },
         { threshold: 0.3 }
       )
-      
+
       if (titleRef.value) {
         observer.observe(titleRef.value)
       }
-      
+
       return observer
     }
-    
-    // Skill utility functions
+
+    // ===> TARIK DATA DARI BACKEND DEPLOY KAMU
+    const fetchSkills = async () => {
+      try {
+        const res = await axios.get('https://interactive-cv-be.vercel.app/api/skills')
+        skills.value = res.data
+      } catch (err) {
+        console.error('Gagal mengambil data skills:', err)
+      }
+    }
+
     const getSkillIcon = (skillName) => {
       const icons = {
         'Vue.js': 'V',
@@ -169,7 +167,7 @@ export default {
       }
       return icons[skillName] || '?'
     }
-    
+
     const getLevelColor = (level) => {
       const colors = {
         'Mahir': 'bg-gradient-to-r from-green-500 to-emerald-600',
@@ -178,7 +176,7 @@ export default {
       }
       return colors[level] || 'bg-gray-500'
     }
-    
+
     const getLevelIcon = (level) => {
       const icons = {
         'Mahir': '★',
@@ -187,7 +185,7 @@ export default {
       }
       return icons[level] || '?'
     }
-    
+
     const getSkillPercentage = (level) => {
       const percentages = {
         'Mahir': 90,
@@ -196,7 +194,7 @@ export default {
       }
       return percentages[level] || 0
     }
-    
+
     const getSkillDescription = (skillName) => {
       const descriptions = {
         'Vue.js': 'Framework JavaScript progresif untuk membangun antarmuka pengguna yang interaktif dan dinamis.',
@@ -210,25 +208,22 @@ export default {
       }
       return descriptions[skillName] || 'Teknologi yang saya kuasai dalam pengembangan web.'
     }
-    
+
     const selectSkill = (skill) => {
       selectedSkill.value = skill
     }
-    
+
     const playHoverSound = () => {
-      // Optional: Add subtle hover sound effect
-      // This would require audio files and additional implementation
+      // optional
     }
-    
+
     onMounted(() => {
       generateParticles()
       const observer = setupIntersectionObserver()
-      
-      return () => {
-        observer.disconnect()
-      }
+      fetchSkills() // TARIK DATA SAAT MOUNTED
+      return () => observer.disconnect()
     })
-    
+
     return {
       isVisible,
       titleRef,
@@ -246,6 +241,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600;700&display=swap');
